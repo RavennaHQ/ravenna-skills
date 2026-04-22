@@ -1,0 +1,35 @@
+{
+  "name": "ravenna",
+  "version": "0.0.1",
+  "description": "Manage Ravenna (https://ravenna.ai) capabilities",
+  "author": {
+    "name": "Ravenna Team"
+  },
+  "homepage": "https://github.com/RavennaHQ/claude-plugin",
+  "repository": "https://github.com/RavennaHQ/claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "ravenna",
+    "code-actions",
+    "code-generation",
+    "typescript",
+    "mcp",
+    "automation",
+    "workflow",
+    "action-management"
+  ],
+  "userConfig": {
+    "api_url": {
+      "type": "string",
+      "title": "Ravenna API URL",
+      "description": "The Ravenna API endpoint URL (e.g., https://core.ravenna.ai/mcp)",
+      "default": "https://core.ravenna.ai/mcp"
+    },
+    "api_key": {
+      "type": "string",
+      "title": "Ravenna API Key",
+      "description": "Your Ravenna API authentication key (get one from https://ravenna.ai)",
+      "sensitive": true
+    }
+  }
+}

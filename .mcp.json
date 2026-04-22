@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ravenna": {
+      "url": "${user_config.api_url}",
+      "type": "http",
+      "headers": {
+        "Authorization": "Bearer ${user_config.api_key}"
+      }
+    }
+  }
+}
