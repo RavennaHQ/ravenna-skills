@@ -26,7 +26,7 @@ echo ""
 
 echo "3. Checking environment variables..."
 echo "   - RAVENNA_API_URL: ${RAVENNA_API_URL:-not set}"
-echo "   - RAVENNA_API_KEY: ${RAVENNA_API_KEY:+set}"
+echo "   - RAVENNA_API_KEY: ${RAVENNA_API_KEY:-not set}"
 echo ""
 
 echo "4. Testing with Claude Code..."

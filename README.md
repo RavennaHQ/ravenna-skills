@@ -1,468 +1,419 @@
-# Ravenna Code Action Manager - Claude Plugin
+# Agent Skills for API Integration
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](./.claude-plugin/plugin.json)
+[![agentskills](https://img.shields.io/badge/format-agentskills-blue.svg)](https://agentskills.io)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-[![Claude](https://img.shields.io/badge/Claude-Opus%204.6-purple.svg)](https://claude.ai)
 
-> **Manage executable code actions in Ravenna - create, update, or delete TypeScript code snippets with full schema support**
+> **Write once, use everywhere** - Skills that work across Claude, GitHub Copilot, Pi, and other AI agents.
 
-A Claude plugin that connects to the Ravenna MCP server to manage code actions - reusable TypeScript functions that can be stored, retrieved, and executed on demand.
+A collection of production-ready skills for generating, deploying, and debugging TypeScript API integrations. Built using the [agentskills](https://agentskills.io) format for maximum cross-agent compatibility.
 
 ---
 
-## 🚀 Quick Start
+## 🌟 What is agentskills?
 
-### Prerequisites
+agentskills is an open format for creating reusable AI agent capabilities. Skills written in this format work across different AI agents (Claude, Copilot, Pi, etc.) without modification.
 
-1. **Ravenna API key** - Get one from https://ravenna.ai
-2. **Claude Code** version 1.0.33 or later
+**Key Benefits:**
+- ✅ **Cross-agent compatible** - Use the same skills in any agent
+- ✅ **Progressive disclosure** - Load only what you need
+- ✅ **Community maintained** - Open format backed by Anthropic
+- ✅ **Easy to validate** - Standard format with validation tools
 
-### Installation
+Learn more at [agentskills.io](https://agentskills.io)
 
-**Quick Start:**
+---
+
+## 📦 Skills Included
+
+### 1. api-code-generator
+
+Generate production-ready TypeScript API integration code from REST API documentation.
+
+**Use when:** Integrating with a new REST API, creating reusable API client functions
+
+**Features:**
+- Analyzes API docs automatically
+- Generates type-safe schemas
+- Includes error handling and pagination
+- Supports multiple authentication methods
+
+[View Documentation](skills/api-code-generator/SKILL.md)
+
+### 2. code-action
+
+Generate TypeScript code and deploy it as an executable code action with full schema support.
+
+**Use when:** Creating reusable, deployable API integrations
+
+**Features:**
+- End-to-end workflow (docs → code → deployment)
+- Automatic validation
+- Optional editor review mode
+- Error handling and retry logic
+
+[View Documentation](skills/code-action/SKILL.md)
+
+### 3. debug-workflows
+
+Debug and test workflows by manually triggering them with custom payloads.
+
+**Use when:** Debugging workflow execution, testing integration logic
+
+**Features:**
+- Manual workflow triggering
+- Step-by-step execution analysis
+- Comprehensive debugging patterns
+- Error root cause identification
+
+[View Documentation](skills/debug-workflows/SKILL.md)
+
+---
+
+## 🚀 Installation
+
+**Quick start by agent:**
+
+### Claude Code ✅ (Recommended)
 
 ```bash
-# 1. Set your credentials
-export RAVENNA_API_URL="https://core.ravenna.ai/mcp"
-export RAVENNA_API_KEY="your-api-key-here"
+# Clone the repository
+git clone https://github.com/RavennaHQ/ravenna-skills.git
+cd ravenna-skills
 
-# 2. Load the plugin
-cd /path/to/ravenna-claude
+# Run setup
+cd config/claude && ./setup.sh && cd ../..
+
+# Start Claude Code — it will prompt for your API key
 claude --plugin-dir .
 ```
 
-**Detailed installation instructions:** See [INSTALL.md](./INSTALL.md)
+**Full documentation:** [config/claude/README.md](config/claude/README.md)
 
-**For local development:**
+### GitHub Copilot ⚠️ (Experimental)
+
 ```bash
-export RAVENNA_API_URL="http://localhost:3000/mcp"
-export RAVENNA_API_KEY="your-local-api-key"
+# Copy skills to Copilot directory
+cp -r skills/* ~/.github/copilot/skills/
+
+# Set credentials via environment
+export RAVENNA_API_KEY="your-key"
+```
+
+**Full documentation:** [config/copilot/README.md](config/copilot/README.md)
+
+### Warp ⚠️ (Via Claude CLI)
+
+```bash
+# Use Claude Code from Warp terminal
+cd ravenna-claude
 claude --plugin-dir .
 ```
 
-**Troubleshooting:** If the plugin doesn't load or doesn't prompt for credentials, see the [troubleshooting section in INSTALL.md](./INSTALL.md#troubleshooting)
+**Full documentation:** [config/warp/README.md](config/warp/README.md)
 
-### First Use
+### Pi ⚠️ (Experimental)
 
-```
-/api-code-generator:generate
+Manual skill loading - see documentation.
 
-Create a code action to send emails via SendGrid API
-```
+**Full documentation:** [config/pi/README.md](config/pi/README.md)
 
-Claude will generate the code, create the action in Ravenna, and confirm creation!
+### Other Agents
 
----
+Use generic templates as starting point.
 
-## ✨ Features
-
-### 🎯 **Code Action Management**
-- **CREATE** - Generate new code actions from natural language
-- **UPDATE** - Modify existing actions with requested changes
-- **DELETE** - Remove actions no longer needed
-- **LIST** - View all available code actions
-
-### 🤖 **Intelligent Code Generation**
-- Type-safe TypeScript functions with positional arguments
-- Automatic schema generation (input and output)
-- Proper error handling and validation
-- Support for pagination, authentication, and retries
-
-### 🔌 **MCP Integration**
-- Connects to Ravenna via Model Context Protocol
-- Automatic tool discovery and invocation
-- Persistent storage of code actions
-- Cross-session action availability
-
-### 📦 **Schema Management**
-- Array-based input/output schemas
-- Five required fields per schema entry
-- Special types: `secret`, `date`, `datetime`, `void`
-- Nested object and array support
-
-### 🛡️ **Production Quality**
-- Comprehensive error handling
-- Parameter validation
-- Clear error messages
-- Type safety throughout
-
-### 💡 **TypeScript LSP Support**
-- Real-time type checking and diagnostics
-- Go to definition and find references
-- Type inference for better code generation
-- Automatic error detection
-- Inlay hints for parameters and return types
-- See [LSP-SETUP.md](./LSP-SETUP.md) for installation
+**Full documentation:** [config/generic/README.md](config/generic/README.md)
 
 ---
 
-## 📚 Usage Examples
-
-### Example 1: Create a New Code Action
-
-```
-/api-code-generator:generate
-
-Create a code action to fetch GitHub user info by username using the GitHub API
-```
-
-**What Happens:**
-1. Claude generates TypeScript code for the GitHub API call
-2. Defines inputSchema: `username` (string), `token` (secret, optional)
-3. Defines outputSchema: `login`, `name`, `bio`, `public_repos`, etc.
-4. Calls Ravenna MCP `create_code_action` tool
-5. Confirms creation: "✅ Created code action: fetch-github-user"
-
-**Generated Code:**
-```typescript
-export async function run(username: string, token?: string): Promise<Record<string, unknown>> {
-  const headers: Record<string, string> = {
-    'Accept': 'application/vnd.github+json'
-  };
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const response = await fetch(`https://api.github.com/users/${username}`, { headers });
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error(`User '${username}' not found`);
-    }
-    throw new Error(`GitHub API error: ${response.status}`);
-  }
-
-  const user = await response.json();
-  return {
-    login: user.login,
-    name: user.name,
-    bio: user.bio,
-    publicRepos: user.public_repos,
-    followers: user.followers,
-    following: user.following
-  };
-}
-
-export const inputSchema = [
-  { name: 'username', type: 'string', description: 'GitHub username', optional: false, nested: [] },
-  { name: 'token', type: 'secret', description: 'GitHub personal access token', optional: true, nested: [] }
-];
-
-export const outputSchema = [
-  { name: 'login', type: 'string', description: 'GitHub username', optional: false, nested: [] },
-  { name: 'name', type: 'string', description: 'Full name', optional: true, nested: [] },
-  { name: 'bio', type: 'string', description: 'User biography', optional: true, nested: [] },
-  { name: 'publicRepos', type: 'number', description: 'Public repository count', optional: false, nested: [] },
-  { name: 'followers', type: 'number', description: 'Follower count', optional: false, nested: [] },
-  { name: 'following', type: 'number', description: 'Following count', optional: false, nested: [] }
-];
-```
-
-### Example 2: Update an Existing Action
-
-```
-/api-code-generator:generate
-
-Update the fetch-github-user action to also include the user's avatar URL
-```
-
-**What Happens:**
-1. Claude calls Ravenna MCP `get_code_action` to retrieve current action
-2. Modifies the code to include `avatar_url` in the return
-3. Updates outputSchema to add `avatarUrl` field
-4. Calls Ravenna MCP `update_code_action` with changes
-5. Confirms: "✅ Updated fetch-github-user - now includes avatar URL"
-
-### Example 3: Delete an Action
-
-```
-/api-code-generator:generate
-
-Delete the old-weather-api code action
-```
-
-**What Happens:**
-1. Claude calls Ravenna MCP `delete_code_action`
-2. Confirms: "✅ Deleted code action: old-weather-api"
-
-### Example 4: Create Action with Pagination
-
-```
-/api-code-generator:generate
-
-Create a code action to list all repositories for a GitHub organization with pagination
-```
-
-**Generated Code Includes:**
-- Pagination loop with `maxPages` parameter
-- Link header parsing
-- Accumulation of all results
-- Proper error handling for rate limits
+**📚 Agent Compatibility Guide:** [config/README.md](config/README.md)
 
 ---
 
-## 🏗️ Code Action Structure
+## 📖 Skills Format
 
-Every code action has three required exports:
+Each skill follows the agentskills format:
 
-### 1. The `run` Function
-```typescript
-export async function run(...args: any[]): Promise<Record<string, unknown>> {
-  // Positional arguments matching inputSchema order
-  // Returns structured data matching outputSchema
-}
+```
+skill-name/
+├── SKILL.md          # Required: metadata + instructions
+├── scripts/          # Optional: executable code
+├── references/       # Optional: detailed documentation
+└── assets/           # Optional: templates, resources
 ```
 
-### 2. The `inputSchema`
-```typescript
-export const inputSchema = [
-  {
-    name: 'paramName',
-    type: 'string',        // or number, boolean, object, array, secret, date, datetime, void
-    description: 'Parameter description',
-    optional: false,       // false = required, true = optional
-    nested: []             // Array of nested schemas for object/array types
-  }
-];
+### SKILL.md Structure
+
+Every `SKILL.md` has YAML frontmatter followed by markdown instructions:
+
+```markdown
+---
+name: skill-name
+description: What the skill does and when to use it
+license: MIT
+compatibility: Environment requirements (optional)
+metadata:
+  version: "1.0.0"
+  author: your-name
+---
+
+# Skill Name
+
+Instructions for AI agents...
 ```
 
-### 3. The `outputSchema`
-```typescript
-export const outputSchema = [
-  {
-    name: 'resultField',
-    type: 'object',
-    description: 'Result description',
-    optional: false,
-    nested: [/* nested field definitions */]
-  }
-];
-```
+**Required Fields:**
+- `name` - Skill name (lowercase, hyphens, must match directory)
+- `description` - What it does and when to use it (1-1024 chars)
+
+**Optional Fields:**
+- `license` - License name or file reference
+- `compatibility` - Environment requirements
+- `metadata` - Custom key-value pairs
 
 ---
 
-## 🔧 MCP Server Configuration
+## 🎯 Quick Start
 
-The plugin connects to Ravenna's hosted MCP server. Configuration in `.mcp.json`:
+### Example 1: Generate API Code
 
-```json
+```
+Use api-code-generator skill to create GitHub API integration
+
+API Docs: https://docs.github.com/rest/users/users#get-a-user
+Request: Fetch GitHub user information by username
+```
+
+**Result:** Complete TypeScript code with `run()` function, `inputSchema`, and `outputSchema`.
+
+### Example 2: Deploy Code Action
+
+```
+Use code-action skill to deploy the code
+
+Create a code action for fetching GitHub user information
+API Docs: https://docs.github.com/rest/users/users#get-a-user
+```
+
+**Result:** Code generated, validated, and deployed as executable action.
+
+### Example 3: Debug Workflow
+
+```
+Use debug-workflows skill to test
+
+Debug workflow wf_abc123 with test payload:
 {
-  "mcpServers": {
-    "ravenna": {
-      "url": "${user_config.api_url}",
-      "type": "http",
-      "headers": {
-        "Authorization": "Bearer ${user_config.api_key}"
-      }
-    }
-  }
+  "event_type": "user_created",
+  "user_id": "test_123"
 }
 ```
 
-The URL can be customized via user configuration to support:
-- Production: `https://core.ravenna.ai/mcp`
-- Staging: `https://staging.ravenna.ai/mcp`
-- Local development: `http://localhost:3000/mcp`
-- Self-hosted instances: Your custom URL
-
-### Available MCP Tools
-
-The Ravenna MCP server provides:
-
-| Tool | Purpose | Parameters |
-|------|---------|------------|
-| `create_code_action` | Create new action | name, description, code, inputSchema, outputSchema |
-| `get_code_action` | Retrieve action | name |
-| `update_code_action` | Modify action | name, description?, code?, inputSchema?, outputSchema? |
-| `delete_code_action` | Remove action | name |
-| `list_code_actions` | List all actions | (none) |
+**Result:** Workflow execution analysis with step-by-step details.
 
 ---
 
-## 🎯 Schema Types
+## 🔧 Configuration
 
-### Basic Types
-- `string` - Text values
-- `number` - Integers or floats
-- `boolean` - True/false values
-- `void` - No return value
+### For code-action Skill
 
-### Special Types
-- `secret` - Sensitive data (API keys, passwords, tokens)
-- `date` - Date-only values (YYYY-MM-DD)
-- `datetime` - ISO 8601 timestamps (YYYY-MM-DDTHH:mm:ss.sssZ)
+Requires access to a code action deployment platform (e.g., Ravenna).
 
-### Complex Types
-- `object` - Structured data (use `nested` for properties)
-- `array` - Lists (use `nested` for item structure)
-
-### Nested Structure Example
-
-```typescript
-export const outputSchema = [
-  {
-    name: 'user',
-    type: 'object',
-    optional: false,
-    nested: [
-      { name: 'id', type: 'number', description: 'User ID', optional: false, nested: [] },
-      { name: 'email', type: 'string', description: 'Email', optional: false, nested: [] },
-      {
-        name: 'settings',
-        type: 'object',
-        description: 'User settings',
-        optional: true,
-        nested: [
-          { name: 'theme', type: 'string', description: 'UI theme', optional: false, nested: [] },
-          { name: 'notifications', type: 'boolean', description: 'Enable notifications', optional: false, nested: [] }
-        ]
-      }
-    ]
-  }
-];
-```
-
----
-
-## 🛠️ Development
-
-### Testing Locally
+If using Claude Code with `--plugin-dir .`, credentials are configured automatically via the plugin system. For other agents or CI:
 
 ```bash
-# 1. Start Ravenna server (if running locally)
-# (see Ravenna documentation)
-
-# 2. Load plugin
-claude --plugin-dir ./ravenna-claude
-
-# 3. Configure connection when prompted
-# API URL: http://localhost:3000
-# API Key: your-ravenna-key
-
-# 4. Test creating an action
-/api-code-generator:generate
-Create a code action to...
+export RAVENNA_API_KEY="your-api-key-here"
 ```
 
-### Making Changes
+### For debug-workflows Skill
 
-1. Edit `skills/api-code-generator/SKILL.md`
-2. Update `.mcp.json` if MCP config changes
-3. Run `/reload-plugins` in Claude
-4. Test with various operations (create/update/delete)
+Requires connection to workflow platform:
 
-### Debugging
-
-**Plugin not loading:**
 ```bash
-claude --debug --plugin-dir ./ravenna-claude
+# Configure MCP connection (for Claude Code)
+# See .mcp.json for configuration
 ```
 
-**MCP connection issues:**
-- Verify RAVENNA_API_URL is correct (default: https://core.ravenna.ai/mcp)
-- Check API key is valid
-- Ensure Ravenna server is accessible
-- Test with curl: `curl -H "Authorization: Bearer YOUR_KEY" YOUR_API_URL`
-- Check MCP server logs
-
-**Skill not working:**
-- Verify SKILL.md syntax
-- Check MCP tools are available
-- Test MCP tools manually: `/tool-inspector`
-
 ---
 
-## 📊 Version History
+## 📚 Documentation
 
-### v2.0.0 (2026-03-30) - **Current (Major Rewrite)**
-- 🔄 **Complete redesign** to work with Ravenna MCP server
-- ✅ Create, update, delete code actions via MCP tools
-- ✅ User configuration for Ravenna API URL and key
-- ✅ MCP server configuration included
-- ✅ Comprehensive action management
-- ⚠️ **Breaking:** No longer generates standalone API code files
+### Main Documentation
 
-### v1.2.0 (2026-03-30)
-- ✅ Positional arguments in `run` function
-- ✅ Array-based schemas
-- ✅ Changed `required` to `optional`
-- ✅ Added types: `void`, `secret`, `date`, `datetime`
+- [agentskills Specification](https://agentskills.io/specification) - Format details
+- [agentskills GitHub](https://github.com/agentskills/agentskills) - Source repository
 
-### v1.1.0 (2026-03-30)
-- ✅ Axios + axios-retry support
-- ✅ Pagination patterns
-- ✅ Comprehensive error codes
+### Skill Documentation
 
-See [CHANGELOG.md](./CHANGELOG.md) for full history.
+Each skill has detailed documentation:
 
----
+- **api-code-generator**
+  - [SKILL.md](skills/api-code-generator/SKILL.md) - Main instructions
+  - [references/PATTERNS.md](skills/api-code-generator/references/PATTERNS.md) - Code patterns
 
-## 📋 Requirements
+- **code-action**
+  - [SKILL.md](skills/code-action/SKILL.md) - Main instructions
+  - [references/EXAMPLES.md](skills/code-action/references/EXAMPLES.md) - Usage examples
+  - [references/ERROR_HANDLING.md](skills/code-action/references/ERROR_HANDLING.md) - Error scenarios
+  - [references/VALIDATION.md](skills/code-action/references/VALIDATION.md) - Validation rules
 
-- **Claude Code:** Version 1.0.33 or later
-- **Ravenna API Key:** Get one from https://ravenna.ai
-- **Model:** Claude Opus 4.6 or Sonnet 4.6
-- **TypeScript LSP (Optional):** For enhanced type checking
-  ```bash
-  npm install -g typescript-language-server typescript
-  ```
-  See [LSP-SETUP.md](./LSP-SETUP.md) for details
+- **debug-workflows**
+  - [SKILL.md](skills/debug-workflows/SKILL.md) - Main instructions
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md).
+Contributions welcome! To add a new skill:
+
+1. Create a new directory in `skills/`
+2. Follow the agentskills format:
+   - Add `SKILL.md` with proper frontmatter
+   - Keep main instructions concise (<500 lines)
+   - Move detailed content to `references/`
+3. Test with multiple agents if possible
+4. Submit a pull request
 
 **Areas for contribution:**
+- New skills for different APIs
+- Improvements to existing skills
 - Additional code generation patterns
-- More comprehensive error handling
-- Support for other MCP servers
-- Documentation improvements
-- Example code actions
+- More comprehensive examples
+- Cross-agent testing and compatibility
+
+---
+
+## 📋 Requirements
+
+**General:**
+- Skills work with any agent supporting agentskills format
+- No specific runtime required for skill definitions
+
+**For Code Generation (api-code-generator, code-action):**
+- Ability to fetch web content
+- Ability to generate and write TypeScript code
+
+**For Deployment (code-action):**
+- Access to deployment platform (e.g., Ravenna MCP server)
+- Platform credentials configured
+
+**For Workflow Debugging (debug-workflows):**
+- Connection to workflow platform
+- Workflow trigger and inspect capabilities
+
+---
+
+## 🛠️ Agent Compatibility
+
+These skills have been tested with:
+
+- ✅ **Claude Code** (CLI, Desktop, Web, IDE extensions)
+- ⏳ **GitHub Copilot** (format compatible, testing in progress)
+- ⏳ **Pi** (format compatible, testing in progress)
+- ⏳ **Other agents** (should work, needs testing)
+
+The agentskills format is designed for maximum compatibility. If you test these skills with other agents, please report your results!
 
 ---
 
 ## 📄 License
 
-MIT License - see [LICENSE](./LICENSE) file.
+MIT License - see [LICENSE](./LICENSE) file for details.
+
+**Individual licenses:**
+- api-code-generator: MIT
+- code-action: MIT
+- debug-workflows: MIT
 
 ---
 
 ## 🙏 Credits
 
-**Built for Claude by Claude** 🤖
+**Built with:**
+- [agentskills](https://agentskills.io) - Open format by Anthropic
+- TypeScript - Generated code language
+- Ravenna - Code action platform (for code-action and debug-workflows)
 
-Powered by:
-- Claude Opus 4.6
-- Ravenna MCP Server
+**Inspired by:**
 - Model Context Protocol (MCP)
-- TypeScript
+- OpenAI Function Calling
+- GitHub Actions workflow syntax
 
 ---
 
 ## 📞 Support
 
-- **Documentation:** [skills/api-code-generator/SKILL.md](./skills/api-code-generator/SKILL.md)
-- **Issues:** [GitHub Issues](https://github.com/yourusername/ravenna-claude/issues)
-- **Ravenna Docs:** [Ravenna API docs](https://docs.ravenna.ai/)
+**Getting Help:**
+
+1. **Skill Documentation:** Check each skill's SKILL.md file
+2. **agentskills Docs:** [agentskills.io](https://agentskills.io)
+3. **Issues:** [GitHub Issues](https://github.com/RavennaHQ/ravenna-skills/issues)
+4. **Community:** [agentskills Discord](https://discord.gg/agentskills)
+
+**Common Issues:**
+
+- **Skill not loading:** Verify SKILL.md frontmatter is valid
+- **Name mismatch error:** Ensure `name` field matches directory name
+- **Agent not recognizing skill:** Check agent supports agentskills format
+- **Deployment failing:** Verify platform credentials are configured
 
 ---
 
-## 🌟 Star Us!
+## 🔄 Version History
 
-If this plugin helps you manage code actions, please star the repository!
+### v2.0.0 (2026-04-21) - **agentskills Format**
+
+- 🔄 **Complete rewrite** to follow agentskills specification
+- ✅ Added proper frontmatter to all skills (`name`, `description`, `license`, etc.)
+- ✅ Split large files into main SKILL.md + references/
+- ✅ Made skills agent-agnostic (work with Claude, Copilot, Pi, etc.)
+- ✅ Improved progressive disclosure (keep main files <500 lines)
+- ✅ Updated README for cross-agent compatibility
+- ⚠️ **Breaking:** Directory structure changed to follow agentskills format
+
+### v1.0.0 (2026-03-30) - Initial Release
+
+- ✅ Claude-specific plugin format
+- ✅ Three skills: api-code-generator, code-action, debug-workflows
+- ✅ MCP integration
+- ✅ Basic documentation
 
 ---
 
-**Ready to manage your code actions!** 🚀
+## 🌟 What's Next?
+
+**Planned Features:**
+- More skills for common APIs (Stripe, Twilio, AWS, etc.)
+- GitHub Actions skill for CI/CD integration
+- Database query skill (SQL, MongoDB, etc.)
+- Testing skill for generated code
+- Documentation generation skill
+
+**Help Wanted:**
+- Test skills with non-Claude agents
+- Add skills for popular services
+- Improve documentation
+- Create video tutorials
+- Translate to other languages
+
+---
+
+## 🚀 Ready to Go!
 
 ```bash
-claude plugin install api-code-generator@your-marketplace
+# Get started
+git clone https://github.com/RavennaHQ/ravenna-skills.git
+cd ravenna-claude
+
+# Use with your favorite agent
+claude --plugin-dir .
 ```
 
-Then:
+Then use any skill:
+
 ```
-/api-code-generator:generate
-Create a code action to...
+/api-code-generator
+Generate API integration code for GitHub users API
+API Docs: https://docs.github.com/rest/users/users#get-a-user
 ```
+
+**Happy coding!** 🎉

@@ -1,4 +1,15 @@
-# Debug Ravenna Workflows Skill
+---
+name: debug-workflows
+description: Debug and test Ravenna workflows by manually triggering them with custom payloads and analyzing execution results. Essential for workflow development, troubleshooting production issues, and validating logic before deployment. Use when debugging workflow execution or testing integration logic.
+license: MIT
+compatibility: Requires connection to Ravenna MCP server or similar workflow platform with trigger and inspect capabilities.
+metadata:
+  version: "1.0.0"
+  author: ravenna-claude
+  platform: ravenna
+---
+
+# Debug Workflows Skill
 
 Debug and test Ravenna workflows by manually triggering them with custom payloads and analyzing execution results. Essential for workflow development, troubleshooting production issues, and validating logic before deployment.
 
@@ -13,7 +24,7 @@ This skill teaches you how to:
 
 ## Prerequisites
 
-- Active MCP connection to `plugin:ravenna:ravenna`
+- Active MCP connection to `plugin:ravenna:mcp`
 - Workflow ID you want to debug
 - Basic understanding of your workflow's expected inputs
 

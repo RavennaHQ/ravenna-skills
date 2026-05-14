@@ -1,0 +1,61 @@
+# Warp Configuration Template (Hypothetical)
+# This is a template for potential Warp agentskills integration
+
+ai:
+  # Enable skills support
+  skills:
+    enabled: true
+
+    # Directories to load skills from
+    directories:
+      - ./skills
+
+    # Auto-reload on changes
+    watch: true
+
+  # API integrations
+  integrations:
+    ravenna:
+      type: http
+      base_url: ${RAVENNA_API_URL}
+
+      # Authentication
+      auth:
+        type: bearer
+        token_env: RAVENNA_API_KEY
+
+      # Request configuration
+      timeout: 30s
+      retry:
+        max_attempts: 3
+        backoff: exponential
+
+      # Endpoints (if needed)
+      endpoints:
+        create_action: /actions/create
+        update_action: /actions/update
+        trigger_workflow: /workflows/trigger
+
+# Shell integration
+shell:
+  # Environment variables to load
+  env_files:
+    - .env
+    - .env.local
+
+  # Aliases for quick access
+  aliases:
+    gen-api: claude-skills --command /api-code-generator
+    deploy: claude-skills --command /code-action
+
+# Terminal behavior
+terminal:
+  # Show skill suggestions
+  suggest_skills: true
+
+  # Auto-complete skill names
+  autocomplete:
+    skills: true
+
+  # Show inline skill help
+  inline_help: true
